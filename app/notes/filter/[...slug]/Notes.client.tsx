@@ -12,6 +12,7 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 import Modal from '@/components/Modal/Modal';
 
 import noteService from '@/lib/api';
+import { useParams } from 'next/navigation';
 
 const NotesClient = () => {
   const [page, setPage] = useState(1);
@@ -19,14 +20,20 @@ const NotesClient = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const PER_PAGE = 12;
 
+  const { slug } = useParams<{ slug: string[] }>();
+  const currentTag = slug?.[0];
+
+  const selectedTag =
+    !currentTag || currentTag === 'all' ? undefined : currentTag;
+
   const debouncedSearch = useDebouncedCallback((value: string) => {
     setPage(1);
     setSearch(value);
   }, 500);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['notes', search, page],
-    queryFn: () => noteService.fetchNotes(search, page, PER_PAGE),
+    queryKey: ['notes', search, page, selectedTag],
+    queryFn: () => noteService.fetchNotes(search, page, PER_PAGE, selectedTag),
     placeholderData: keepPreviousData,
   });
 
