@@ -25,9 +25,10 @@ const fetchNotes = async (
   search: string,
   page: number,
   perPage: number,
+  selectedTag?: string,
 ): Promise<NotehubResponse> => {
   const { data } = await api.get<NotehubResponse>(`/notes`, {
-    params: { search, page, perPage },
+    params: { search, page, perPage, tag: selectedTag },
   });
 
   return data;

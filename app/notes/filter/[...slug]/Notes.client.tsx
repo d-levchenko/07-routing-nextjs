@@ -11,7 +11,7 @@ import Pagination from '@/components/Pagination/Pagination';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import Modal from '@/components/Modal/Modal';
 
-import noteService from '../../lib/api';
+import noteService from '@/lib/api';
 
 const NotesClient = () => {
   const [page, setPage] = useState(1);
